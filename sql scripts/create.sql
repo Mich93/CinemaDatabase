@@ -43,9 +43,10 @@ CREATE TABLE projection
 
 CREATE TABLE actor
 (
+  actorId integer PRIMARY KEY 
   name VARCHAR(30) NOT NULL,
   surname VARCHAR(30) NOT NULL,
-  actorId integer PRIMARY KEY  );
+   );
 
 CREATE TABLE plays
 (
