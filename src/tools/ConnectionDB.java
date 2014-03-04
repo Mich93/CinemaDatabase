@@ -40,7 +40,6 @@ public class ConnectionDB {
 				connect();
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return con;
@@ -125,12 +124,42 @@ public class ConnectionDB {
 
 		return tuple;
 	}
+	public void updateTupleById (String tablename, String colname, String id, String value) throws SQLException{
+		Statement s;
+		int result;
+		String resultString, sql;
+
+		if  (!tablename.isEmpty() || !colname.isEmpty() || !id.isEmpty()){
+		tablename = tablename.toLowerCase();
+		colname = colname.toLowerCase();
+		id = "'"+id+"'";
+
+		s = this.getConnection().createStatement();
+		sql= "UPDATE " + tablename  +
+                    " SET " + "colname "+ "= " +value+ " WHERE "+colname+" = "+id+"";
+		resultString= ("In table"+tablename+" the value "+id+ " of the colomn "+colname+" has been sostitueted with "+value);
+		
+				
+		try {
+			result=s.executeUpdate(sql);
+			this.closeConnection();
+			if (result == 1) {
+                System.out.println(resultString);
+           }
+			else
+				System.out.println("There has been an error while updating the tuble");
+		} catch (SQLException ex) {
+			Logger lgr = Logger.getLogger(ConnectionDB.class.getName());
+			lgr.log(Level.WARNING, ex.getMessage(), ex);
+		}
+		}
 	
+	}
 	
 	/**
 	 * 
 	 * @param tablename
-	 * @return
+	 * 
 	 * @throws SQLException
 	 */
 	public ArrayList <ArrayList> getTableByName (String tablename) throws SQLException{
