@@ -3,6 +3,9 @@ import tools.ArrayUtilities;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -124,6 +127,96 @@ public class ConnectionDB {
 
 		return tuple;
 	}
+	
+	//INSERT METHODS
+		//-----------------------------------------------------------------------------------------------------
+		//@Author Julian
+		
+		/**
+		 * 
+		 * @param tablename
+		 * @param values
+		 * @return false if insert failed
+		 * @return true if values are inserted successfully in table
+		 * @throws SQLException 
+		 */
+		public boolean insertIntoTable (String tablename, ArrayList<Object> values) throws SQLException {
+			int[] updateCounts = null;
+			try
+			{
+				StringBuilder insertString = new StringBuilder();
+				insertString.append( "INSERT INTO " + tablename + " VALUES (" );
+				int elemCount = 0;
+				for ( Object val : values ) {
+					insertString.append( val );
+					elemCount++;
+					if ( elemCount < values.size() )
+						insertString.append( " , " );
+				}
+				insertString.append( ");" );
+				this.getConnection().setAutoCommit( false );
+				Statement s = this.getConnection().createStatement();
+				s.addBatch( insertString.toString() );
+				updateCounts = s.executeBatch();
+			}
+			catch ( BatchUpdateException e ) { 
+				this.getConnection().rollback();
+				return false;
+			}
+			catch ( SQLException e ) { 
+				return false;
+			}
+			return true;
+		}
+
+	//UPDATE METHODS
+		//-----------------------------------------------------------------------------------------------------
+		//@Author Julian
+		
+		/**
+		 * 
+		 * @param tablename
+		 * @param values
+		 * @param idKey
+		 * @param idValue
+		 * @return false if update fails
+		 * @return true if values are updated successfully
+		 * @throws SQLException 
+		 */
+		public boolean updateInTable (String tablename, HashMap<String,Object> values, String idKey, String idValue) throws SQLException {
+			int[] updateCounts = null;
+			try
+			{
+				StringBuilder updateString = new StringBuilder();
+				updateString.append( "UPDATE " + tablename + " SET " );
+				int elemCount = 0;
+				Iterator it = values.entrySet().iterator();
+				while ( it.hasNext() ) {
+					Map.Entry pairs = (Map.Entry)it.next();
+					updateString.append( pairs.getKey() + " = '" + pairs.getValue() + "'");
+					it.remove(); // avoids a ConcurrentModificationException
+					elemCount++;
+					if ( elemCount < values.size() )
+						updateString.append( " , " );
+				}
+				updateString.append( " WHERE " + idKey + " = '" + idValue + "');" );
+				this.getConnection().setAutoCommit( false );
+				Statement s = this.getConnection().createStatement();
+				s.addBatch( updateString.toString() );
+				updateCounts = s.executeBatch();
+			}
+			catch ( BatchUpdateException e ) { 
+				this.getConnection().rollback();
+				return false;
+			}
+			catch ( SQLException e ) { 
+				return false;
+			}
+			return true;
+		}
+		
+	// @author: Stefano	
+		
 	public void updateTupleById (String tablename, String colname, String id, String value) throws SQLException{
 		Statement s;
 		int result;
@@ -213,6 +306,5 @@ public class ConnectionDB {
 	//-----------------------------------------------------------------------------------------------------
 	//@Author Marco
 	
-
 
 }
