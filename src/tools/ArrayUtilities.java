@@ -27,4 +27,16 @@ public class ArrayUtilities{
 		    System.out.println();
 		}
 	}
+	
+	public static String toString (ArrayList <Object> tuple, String tablename){
+		StringBuilder result = new StringBuilder();
+		 if(!tablename.isEmpty()){
+		 tablename = tablename.substring(0, 1).toUpperCase()+tablename.substring(1);
+		 }		 
+		
+		 result.append(tablename+" [title=" + tuple.get(0) + ", category=" + tuple.get(1)
+			+ ", directorname=" + tuple.get(2) + "]");
+	
+		return result.toString();
+	}
 }
