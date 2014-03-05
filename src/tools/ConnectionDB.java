@@ -74,6 +74,8 @@ public class ConnectionDB {
 			
 			ArrayList<Object> line = con.getTupleById("customer", "name", "Ettore");
 			ArrayUtilities.print(line);
+			
+		    con.deleteTuple("movie", "title", "The Hobbit");
 		}
 	
 	//SELECT METHODS
@@ -305,6 +307,36 @@ public class ConnectionDB {
 	//DELETE METHODS
 	//-----------------------------------------------------------------------------------------------------
 	//@Author Marco
+	/**Delete the content of a tuple given the name of the table and the tuple id
+	 * @param tablename
+	 * @param colname
+	 * @param id
+	 * @throws SQLException
+	 */
+	public void deleteTuple(String tablename, String colname, String id) throws SQLException{
+		Statement s;
+
+		if  (!tablename.isEmpty() || !colname.isEmpty() || !id.isEmpty()){
+		tablename = tablename.toLowerCase();
+		colname = colname.toLowerCase();
+		id = "'"+id+"'";
+
+		s = this.getConnection().createStatement();
+		s.executeUpdate("delete from "+tablename +" where "+colname+" = "+id+""); 
+		
+		try {
+			if (s != null) {
+				s.close();
+			}
+			this.closeConnection();
+		} catch (SQLException ex) {
+			Logger lgr = Logger.getLogger(ConnectionDB.class.getName());
+			lgr.log(Level.WARNING, ex.getMessage(), ex);
+		}
+		}
+
+
+	}
 	
 
 }
