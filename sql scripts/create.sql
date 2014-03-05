@@ -43,15 +43,14 @@ CREATE TABLE projection
 
 CREATE TABLE actor
 (
-  actorId integer PRIMARY KEY 
+  actorId integer PRIMARY KEY,
   name VARCHAR(30) NOT NULL,
-  surname VARCHAR(30) NOT NULL,
-   );
+  surname VARCHAR(30) NOT NULL);
 
 CREATE TABLE plays
 (
-  actorId integer NOT NULL REFERENCES actor,
-  movieTitle VARCHAR(30) NOT NULL REFERENCES movie,
+  actorId integer NOT NULL REFERENCES actor ON DELETE CASCADE ON UPDATE CASCADE,
+  movieTitle VARCHAR(30) NOT NULL REFERENCES movie ON DELETE CASCADE ON UPDATE CASCADE,
 /* references to table actor and movie to keep referential integrity among actor-play-movie */
   PRIMARY KEY  (actorId, movieTitle));
 
