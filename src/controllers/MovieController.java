@@ -1,7 +1,6 @@
 package controllers;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,26 +9,30 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import tools.ConnectionDB;
-
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.reflect.TypeToken;
 
+import models.Movie;
+import tools.ConnectionDB;
 
 
 public class MovieController extends HttpServlet {
 	
+private static final long serialVersionUID = 1L;
+
+
 protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 	}
 
 	
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		if(request.getParameter("action")!=null){
 			ConnectionDB con = new ConnectionDB(); 
 			List<ArrayList> lst;
+			List<Movie> movielst = new ArrayList<Movie>();
 			String action=(String)request.getParameter("action");
 			
 			Gson gson = new Gson();
@@ -40,10 +43,15 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response) t
 					
 				//Fetch Data from User Table
 					lst = con.getTableByName("movie");
+					for (ArrayList<?> m : lst){
+						Movie item = new Movie(m.get(0).toString(), m.get(1).toString(), m.get(2).toString());
+						movielst.add(item);
+					}
+					
 				//Get Total Record Count for Pagination
-					int userCount=lst.size();
+					int userCount=movielst.size();
 				//Convert Java Object to Json				
-				JsonElement element = gson.toJsonTree(lst, new TypeToken<List<ArrayList>>() {}.getType());
+				JsonElement element = gson.toJsonTree(movielst, new TypeToken<List<Movie>>() {}.getType());
 				JsonArray jsonArray = element.getAsJsonArray();
 				String listData= jsonArray.toString();	
 				

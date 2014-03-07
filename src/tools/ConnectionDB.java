@@ -1,6 +1,4 @@
 package tools;
-import tools.ArrayUtilities;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -67,6 +65,7 @@ public class ConnectionDB {
 	
 	//FOR TESTING
 		/* Prints the movie table not formatted*/
+	 /*
 		public static void main(String[] args) throws SQLException {
 			ConnectionDB con = new ConnectionDB();
 			ArrayList<ArrayList> ls = con.getTableByName("movie");
@@ -77,6 +76,7 @@ public class ConnectionDB {
 			
 		    con.deleteTuple("movie", "title", "The Hobbit");
 		}
+		*/
 	
 	//SELECT METHODS
 	//-----------------------------------------------------------------------------------------------------
