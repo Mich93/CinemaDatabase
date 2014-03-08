@@ -65,36 +65,36 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
 					ex.printStackTrace();
 				}				
 			}
-/*			
+		
 			else if(action.equals("create") || action.equals("update")){
-				User user=new User();
-				if(request.getParameter("userid")!=null){				   
-				   int userid=Integer.parseInt(request.getParameter("userid"));
-				   user.setUserid(userid);
+				Movie movie=new Movie(); //Create object for jsonarray translation
+				ArrayList<Object> matrr=new ArrayList(); //create object array for db insertion/update
+				if(request.getParameter("title")!=null){				   
+				   String title =request.getParameter("title");
+				   movie.setTitle(title);
+				   matrr.add(title); 
 				}
-				if(request.getParameter("firstName")!=null){
-					String firstname=(String)request.getParameter("firstName");
-					user.setFirstName(firstname);
+				if(request.getParameter("category")!=null){
+					String category=(String)request.getParameter("category");
+					movie.setCategory(category);
+					matrr.add(category);
 				}
-				if(request.getParameter("lastName")!=null){
-				   String lastname=(String)request.getParameter("lastName");
-				   user.setLastName(lastname);
-				}
-				if(request.getParameter("email")!=null){
-				   String email=(String)request.getParameter("email");
-				   user.setEmail(email);
+				if(request.getParameter("directorname")!=null){
+				   String directorname=(String)request.getParameter("directorname");
+				   movie.setDirectorname(directorname);
+				   matrr.add(directorname);
 				}
 				try{											
 					if(action.equals("create")){//Create new record
-						dao.addUser(user);					
-						lst.add(user);
+						con.insertIntoTable("movie", matrr);				
+						movielst.add(movie);
 						//Convert Java Object to Json				
-						String json=gson.toJson(user);					
+						String json=gson.toJson(movie);					
 						//Return Json in the format required by jTable plugin
 						String listData="{\"Result\":\"OK\",\"Record\":"+json+"}";											
 						response.getWriter().print(listData);
 					}else if(action.equals("update")){//Update existing record
-						dao.updateUser(user);
+						con.updateInTable("movie", matrr, "title", movie.getTitle());
 						String listData="{\"Result\":\"OK\"}";									
 						response.getWriter().print(listData);
 					}
@@ -104,9 +104,10 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
 				}
 			}else if(action.equals("delete")){//Delete record
 				try{
-					if(request.getParameter("userid")!=null){
-						String userid=(String)request.getParameter("userid");
-						dao.deleteUser(Integer.parseInt(userid));
+					if(request.getParameter("title")!=null){
+						String title=(String)request.getParameter("title");
+						System.out.println(title);
+						con.deleteTuple("movie", "title", title);
 						String listData="{\"Result\":\"OK\"}";								
 						response.getWriter().print(listData);
 					}
@@ -115,7 +116,6 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
 				response.getWriter().print(error);
 			}				
 		}
-		*/
 	 }
 	
    }

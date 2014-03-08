@@ -185,14 +185,14 @@ public class ConnectionDB {
 		 * @return true if values are updated successfully
 		 * @throws SQLException 
 		 */
-		public boolean updateInTable (String tablename, HashMap<String,Object> values, String idKey, String idValue) throws SQLException {
+		public boolean updateInTable (String tablename, ArrayList<Object> values, String idKey, String idValue) throws SQLException {
 			int[] updateCounts = null;
 			try
 			{
 				StringBuilder updateString = new StringBuilder();
 				updateString.append( "UPDATE " + tablename + " SET " );
 				int elemCount = 0;
-				Iterator it = values.entrySet().iterator();
+				Iterator it = values.iterator();
 				while ( it.hasNext() ) {
 					Map.Entry pairs = (Map.Entry)it.next();
 					updateString.append( pairs.getKey() + " = '" + pairs.getValue() + "'");

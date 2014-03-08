@@ -20,27 +20,28 @@
             pageSize: 10, //Set page size (default: 10)           
             actions: {
                 listAction: 'MovieController?action=list',
-                //createAction:'CRUDController?action=create',
-                //updateAction: 'CRUDController?action=update',
-                //deleteAction: 'CRUDController?action=delete'
+                createAction:'MovieController?action=create',
+                updateAction: 'MovieController?action=update',
+                deleteAction: 'MovieController?action=delete'
             },
             fields: {
                 title: {
                 	title:'Title',
                     key: true,
                     list: true,
-                    width: '30%',
-                    create:false
+                    width: '50%',
+                    create:true,
+                    edit: true
                 },
                 category: {
                     title: 'Category',
                     width: '15%',
-                    edit:false
+                    edit:true
                 },
                 directorname: {
                     title: 'Director',
                     width: '20%',
-                    edit:false
+                    edit:true
                 }             
             }
         });
