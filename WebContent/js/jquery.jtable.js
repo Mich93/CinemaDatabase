@@ -1,6 +1,6 @@
 ﻿/* 
 
-jTable 2.3.1
+jTable 2.3.0
 http://www.jtable.org
 
 ---------------------------------------------------------------------------
@@ -31,15 +31,6 @@ THE SOFTWARE.
 * CORE jTable module                                                    *
 *************************************************************************/
 (function ($) {
-
-    var unloadingPage;
-    
-    $(window).on('beforeunload', function () {
-        unloadingPage = true;
-    });
-    $(window).on('unload', function () {
-        unloadingPage = false;
-    });
 
     $.widget("hik.jtable", {
 
@@ -145,7 +136,7 @@ THE SOFTWARE.
             this._createErrorDialogDiv();
             this._addNoDataRow();
 
-            this._cookieKeyPrefix = this._generateCookieKeyPrefix();            
+            this._cookieKeyPrefix = this._generateCookieKeyPrefix();
         },
 
         /* Normalizes some options for all fields (sets default values).
@@ -1137,14 +1128,9 @@ THE SOFTWARE.
             };
 
             //Override error
-            opts.error = function (jqXHR, textStatus, errorThrown) {
-                if (unloadingPage) {
-                    jqXHR.abort();
-                    return;
-                }
-                
+            opts.error = function () {
                 if (options.error) {
-                    options.error(arguments);
+                    options.error();
                 }
             };
 
@@ -1940,11 +1926,6 @@ THE SOFTWARE.
         *************************************************************************/
         _create: function () {
             base._create.apply(this, arguments);
-            
-            if (!this.options.actions.createAction) {
-                return;
-            }
-            
             this._createAddRecordDialogDiv();
         },
 
@@ -1952,6 +1933,11 @@ THE SOFTWARE.
         *************************************************************************/
         _createAddRecordDialogDiv: function () {
             var self = this;
+
+            //Check if createAction is supplied
+            if (!self.options.actions.createAction) {
+                return;
+            }
 
             //Create a div for dialog and add to container element
             self._$addRecordDiv = $('<div />')
@@ -1976,7 +1962,13 @@ THE SOFTWARE.
                             id: 'AddRecordDialogSaveButton',
                             text: self.options.messages.save,
                             click: function () {
-                                self._onSaveClickedOnCreateForm();
+                                var $saveButton = $('#AddRecordDialogSaveButton');
+                                var $addRecordForm = self._$addRecordDiv.find('form');
+
+                                if (self._trigger("formSubmitting", null, { form: $addRecordForm, formType: 'create' }) != false) {
+                                    self._setEnabledOfDialogButton($saveButton, false, self.options.messages.saving);
+                                    self._saveAddRecordForm($addRecordForm, $saveButton);
+                                }
                             }
                         }],
                 close: function () {
@@ -2004,18 +1996,6 @@ THE SOFTWARE.
                         self._showAddRecordForm();
                     }
                 });
-            }
-        },
-        
-        _onSaveClickedOnCreateForm: function () {
-            var self = this;
-            
-            var $saveButton = $('#AddRecordDialogSaveButton');
-            var $addRecordForm = self._$addRecordDiv.find('form');
-
-            if (self._trigger("formSubmitting", null, { form: $addRecordForm, formType: 'create' }) != false) {
-                self._setEnabledOfDialogButton($saveButton, false, self.options.messages.saving);
-                self._saveAddRecordForm($addRecordForm, $saveButton);
             }
         },
 
@@ -2099,7 +2079,7 @@ THE SOFTWARE.
             var self = this;
 
             //Create add new record form
-            var $addRecordForm = $('<form id="jtable-create-form" class="jtable-dialog-form jtable-create-form"></form>');
+            var $addRecordForm = $('<form id="jtable-create-form" class="jtable-dialog-form jtable-create-form" action="' + self.options.actions.createAction + '" method="POST"></form>');
 
             //Create input elements
             for (var i = 0; i < self._fieldList.length; i++) {
@@ -2141,11 +2121,6 @@ THE SOFTWARE.
 
             self._makeCascadeDropDowns($addRecordForm, undefined, 'create');
 
-            $addRecordForm.submit(function () {
-                self._onSaveClickedOnCreateForm();
-                return false;
-            });
-
             //Open the form
             self._$addRecordDiv.append($addRecordForm).dialog('open');
             self._trigger("formCreated", null, { form: $addRecordForm, formType: 'create' });
@@ -2160,7 +2135,7 @@ THE SOFTWARE.
             $addRecordForm.data('submitting', true);
 
             self._submitFormUsingAjax(
-                self.options.actions.createAction,
+                $addRecordForm.attr('action'),
                 $addRecordForm.serialize(),
                 function (data) {
                     
@@ -2243,11 +2218,6 @@ THE SOFTWARE.
         *************************************************************************/
         _create: function () {
             base._create.apply(this, arguments);
-            
-            if (!this.options.actions.updateAction) {
-                return;
-            }
-            
             this._createEditDialogDiv();
         },
 
@@ -2279,7 +2249,19 @@ THE SOFTWARE.
                             id: 'EditDialogSaveButton',
                             text: self.options.messages.save,
                             click: function () {
-                                self._onSaveClickedOnEditForm();
+                                
+                                //row maybe removed by another source, if so, do nothing
+                                if (self._$editingRow.hasClass('jtable-row-removed')) {
+                                    self._$editDiv.dialog('close');
+                                    return;
+                                }
+
+                                var $saveButton = self._$editDiv.find('#EditDialogSaveButton');
+                                var $editForm = self._$editDiv.find('form');
+                                if (self._trigger("formSubmitting", null, { form: $editForm, formType: 'edit', row: self._$editingRow }) != false) {
+                                    self._setEnabledOfDialogButton($saveButton, false, self.options.messages.saving);
+                                    self._saveEditForm($editForm, $saveButton);
+                                }
                             }
                         }],
                 close: function () {
@@ -2292,27 +2274,8 @@ THE SOFTWARE.
             });
         },
 
-        /* Saves editing form to server.
-        *************************************************************************/
-        _onSaveClickedOnEditForm: function () {
-            var self = this;
-            
-            //row maybe removed by another source, if so, do nothing
-            if (self._$editingRow.hasClass('jtable-row-removed')) {
-                self._$editDiv.dialog('close');
-                return;
-            }
-
-            var $saveButton = $('#EditDialogSaveButton');
-            var $editForm = self._$editDiv.find('form');
-            if (self._trigger("formSubmitting", null, { form: $editForm, formType: 'edit', row: self._$editingRow }) != false) {
-                self._setEnabledOfDialogButton($saveButton, false, self.options.messages.saving);
-                self._saveEditForm($editForm, $saveButton);
-            }
-        },
-
         /************************************************************************
-        * PUBLIC METHODS                                                        *
+        * PUNLIC METHODS                                                        *
         *************************************************************************/
 
         /* Updates a record on the table (optionally on the server also)
@@ -2430,7 +2393,7 @@ THE SOFTWARE.
             var record = $tableRow.data('record');
 
             //Create edit form
-            var $editForm = $('<form id="jtable-edit-form" class="jtable-dialog-form jtable-edit-form"></form>');
+            var $editForm = $('<form id="jtable-edit-form" class="jtable-dialog-form jtable-edit-form" action="' + self.options.actions.updateAction + '" method="POST"></form>');
 
             //Create input fields
             for (var i = 0; i < self._fieldList.length; i++) {
@@ -2478,13 +2441,8 @@ THE SOFTWARE.
                         form: $editForm
                     }));
             }
-            
-            self._makeCascadeDropDowns($editForm, record, 'edit');
 
-            $editForm.submit(function () {
-                self._onSaveClickedOnEditForm();
-                return false;
-            });
+            self._makeCascadeDropDowns($editForm, record, 'edit');
 
             //Open dialog
             self._$editingRow = $tableRow;
@@ -2497,7 +2455,7 @@ THE SOFTWARE.
         _saveEditForm: function ($editForm, $saveButton) {
             var self = this;
             self._submitFormUsingAjax(
-                self.options.actions.updateAction,
+                $editForm.attr('action'),
                 $editForm.serialize(),
                 function (data) {
                     //Check for errors
@@ -2559,7 +2517,6 @@ THE SOFTWARE.
             var $columns = $tableRow.find('td');
             for (var i = 0; i < this._columnList.length; i++) {
                 var displayItem = this._getDisplayTextForRecordField(record, this._columnList[i]);
-                if (displayItem == 0) displayItem = "0";
                 $columns.eq(this._firstDataColumnOffset + i).html(displayItem || '');
             }
 
@@ -2654,11 +2611,6 @@ THE SOFTWARE.
         *************************************************************************/
         _createDeleteDialogDiv: function () {
             var self = this;
-            
-            //Check if deleteAction is supplied
-            if (!self.options.actions.deleteAction) {
-                return;
-            }
 
             //Create div element for delete confirmation dialog
             self._$deleteRecordDiv = $('<div><p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span><span class="jtable-delete-confirm-message"></span></p></div>').appendTo(self._$mainContainer);
@@ -4055,7 +4007,7 @@ THE SOFTWARE.
                     if (fieldProps.sorting) {
                         var colOffset = orderValue.indexOf(fieldName);
                         if (colOffset > -1) {
-                            if (orderValue.toUpperCase().indexOf(' DESC', colOffset) > -1) {
+                            if (orderValue.toUpperCase().indexOf('DESC', colOffset) > -1) {
                                 self._lastSorting.push({
                                     fieldName: fieldName,
                                     sortOrder: 'DESC'
@@ -4752,14 +4704,14 @@ THE SOFTWARE.
         /* Overrides _removeRowsFromTable method to remove child rows of deleted rows.
         *************************************************************************/
         _removeRowsFromTable: function ($rows, reason) {
-            //var self = this;
+            var self = this;
 
             if (reason == 'deleted') {
                 $rows.each(function () {
                     var $row = $(this);
                     var $childRow = $row.data('childRow');
                     if ($childRow) {
-                        //self.closeChildTable($row); //Removed since it causes "Uncaught Error: cannot call methods on jtable prior to initialization; attempted to call method 'destroy'"
+                        self.closeChildTable($row);
                         $childRow.remove();
                     }
                 });
