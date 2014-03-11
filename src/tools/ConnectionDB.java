@@ -65,18 +65,35 @@ public class ConnectionDB {
 	
 	//FOR TESTING
 		/* Prints the movie table not formatted*/
-	 /*
+	 
 		public static void main(String[] args) throws SQLException {
 			ConnectionDB con = new ConnectionDB();
 			ArrayList<ArrayList> ls = con.getTableByName("movie");
 			ArrayUtilities.printTable(ls);
 			
-			ArrayList<Object> line = con.getTupleById("customer", "name", "Ettore");
+			ArrayList<Object> line = con.getTupleById("movie", "title", "Anchorman");
+			System.out.println("\nLine for id \"Anchorman\" :");
 			ArrayUtilities.print(line);
 			
-		    con.deleteTuple("movie", "title", "The Hobbit");
+			line.set(0, "The Hobbit: An unexpected journey");
+			line.set(1, "Fantasy");
+			line.set(2, "Steven Spielberg");
+			
+			System.out.println();
+			System.out.println("\nInserting this line: ");
+			ArrayUtilities.print(line);
+			boolean check = con.insertIntoTable("movie", line);
+			System.out.println(check);
+
+			
+			System.out.println();
+			System.out.println("\nMovies:");
+			ls = con.getTableByName("movie");
+			ArrayUtilities.printTable(ls);
+			
+		    //con.deleteTuple("movie", "title", "The Hobbit: An unexpected journey");
 		}
-		*/
+		
 	
 	//SELECT METHODS
 	//-----------------------------------------------------------------------------------------------------
@@ -150,24 +167,29 @@ public class ConnectionDB {
 				insertString.append( "INSERT INTO " + tablename + " VALUES (" );
 				int elemCount = 0;
 				for ( Object val : values ) {
-					insertString.append( val );
+					insertString.append( "'"+val+"'" );
 					elemCount++;
 					if ( elemCount < values.size() )
-						insertString.append( " , " );
+						insertString.append( ", " );
 				}
 				insertString.append( ");" );
+				System.out.println("\n"+insertString );
 				this.getConnection().setAutoCommit( false );
 				Statement s = this.getConnection().createStatement();
-				s.addBatch( insertString.toString() );
+				s.addBatch( insertString.toString());
 				updateCounts = s.executeBatch();
 			}
 			catch ( BatchUpdateException e ) { 
 				this.getConnection().rollback();
+				Logger lgr = Logger.getLogger(ConnectionDB.class.getName());
+				lgr.log(Level.WARNING, e.getMessage(), e);	
 				return false;
+				
 			}
 			catch ( SQLException e ) { 
 				return false;
 			}
+			this.getConnection().commit();
 			return true;
 		}
 
@@ -209,9 +231,13 @@ public class ConnectionDB {
 			}
 			catch ( BatchUpdateException e ) { 
 				this.getConnection().rollback();
+				Logger lgr = Logger.getLogger(ConnectionDB.class.getName());
+				lgr.log(Level.WARNING, e.getMessage(), e);
 				return false;
 			}
 			catch ( SQLException e ) { 
+				Logger lgr = Logger.getLogger(ConnectionDB.class.getName());
+				lgr.log(Level.WARNING, e.getMessage(), e);
 				return false;
 			}
 			return true;

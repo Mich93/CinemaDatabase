@@ -73,16 +73,19 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
 				   String title =request.getParameter("title");
 				   movie.setTitle(title);
 				   matrr.add(title); 
+				   System.out.println(title);
 				}
 				if(request.getParameter("category")!=null){
 					String category=(String)request.getParameter("category");
 					movie.setCategory(category);
 					matrr.add(category);
+					System.out.println(category);
 				}
 				if(request.getParameter("directorname")!=null){
 				   String directorname=(String)request.getParameter("directorname");
 				   movie.setDirectorname(directorname);
 				   matrr.add(directorname);
+				   System.out.println(directorname);
 				}
 				try{											
 					if(action.equals("create")){//Create new record
