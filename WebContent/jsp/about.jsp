@@ -9,6 +9,7 @@
 <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.4.2/pure-min.css">
 <link href="css/side-menu.css" rel="stylesheet"></link>
 <link href="css/pricing.css" rel="stylesheet"></link>
+<link href="css/main-grid.css" rel="stylesheet"></link>
 </head>
 
 <!--  BODY ------------------------------------------------------------------------------------------------ -->
