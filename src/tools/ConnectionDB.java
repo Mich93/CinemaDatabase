@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -37,7 +38,7 @@ public class ConnectionDB {
 	 */
 	public Connection getConnection() {
 		try {
-			if (con.isClosed()){
+			if ( con == null || con.isClosed() ){
 				connect();
 			}
 		} catch (SQLException e) {
@@ -90,6 +91,8 @@ public class ConnectionDB {
 			System.out.println("\nMovies:");
 			ls = con.getTableByName("movie");
 			ArrayUtilities.printTable(ls);
+			
+			con.closeConnection();
 			
 		    //con.deleteTuple("movie", "title", "The Hobbit: An unexpected journey");
 		}
@@ -192,13 +195,58 @@ public class ConnectionDB {
 			this.getConnection().commit();
 			return true;
 		}
+		
+		
+		/**
+		 * 
+		 * @param tablename
+		 * @param values
+		 * @return
+		 * @throws SQLException
+		 */
+		public boolean insertIntoTable (String tablename, Map <String , Object> values) throws SQLException {
+			int[] updateCounts = null;
+			try
+			{
+				StringBuilder insertString = new StringBuilder();
+				insertString.append( "INSERT INTO " + tablename + " VALUES (" );
+				int elemCount = 0;
+				Iterator<Entry<String, Object>> it = values.entrySet().iterator();
+				while (  it.hasNext() ) {
+					Entry<String, Object> pairs = it.next();
+					insertString.append( "'"+pairs.getValue()+"'" );
+					elemCount++;
+					if ( elemCount < values.size() )
+						insertString.append( ", " );
+				}
+				insertString.append( ");" );
+				System.out.println("\n"+insertString );
+				this.getConnection().setAutoCommit( false );
+				Statement s = this.getConnection().createStatement();
+				s.addBatch( insertString.toString());
+				updateCounts = s.executeBatch();
+			}
+			catch ( BatchUpdateException e ) { 
+				this.getConnection().rollback();
+				Logger lgr = Logger.getLogger(ConnectionDB.class.getName());
+				lgr.log(Level.WARNING, e.getMessage(), e);	
+				return false;
+				
+			}
+			catch ( SQLException e ) { 
+				return false;
+			}
+			this.getConnection().commit();
+			return true;
+		}
+
 
 	//UPDATE METHODS
 		//-----------------------------------------------------------------------------------------------------
 		//@Author Julian
 		
 		/**
-		 * 
+		 * Update method. It takes Map as a row of the database and update it
 		 * @param tablename
 		 * @param values
 		 * @param idKey
@@ -207,23 +255,26 @@ public class ConnectionDB {
 		 * @return true if values are updated successfully
 		 * @throws SQLException 
 		 */
-		public boolean updateInTable (String tablename, ArrayList<Object> values, String idKey, String idValue) throws SQLException {
+		public boolean updateInTable (String tablename, Map<String, Object> values, String idKey, String idValue) throws SQLException {
 			int[] updateCounts = null;
 			try
 			{
 				StringBuilder updateString = new StringBuilder();
 				updateString.append( "UPDATE " + tablename + " SET " );
 				int elemCount = 0;
-				Iterator it = values.iterator();
+				Iterator<Entry<String, Object>> it = values.entrySet().iterator();
 				while ( it.hasNext() ) {
-					Map.Entry pairs = (Map.Entry)it.next();
+					Entry<String, Object> pairs = it.next();
 					updateString.append( pairs.getKey() + " = '" + pairs.getValue() + "'");
-					it.remove(); // avoids a ConcurrentModificationException
+					//it.remove(); // avoids a ConcurrentModificationException
 					elemCount++;
-					if ( elemCount < values.size() )
+					System.out.println(updateString);
+					System.out.println(elemCount +"\t"+values.size());
+					if ( elemCount < values.size() ){
 						updateString.append( " , " );
-				}
-				updateString.append( " WHERE " + idKey + " = '" + idValue + "');" );
+			     	}
+				}	
+				updateString.append( " WHERE " + idKey + " = '" + idValue + "';" );
 				this.getConnection().setAutoCommit( false );
 				Statement s = this.getConnection().createStatement();
 				s.addBatch( updateString.toString() );
@@ -240,6 +291,8 @@ public class ConnectionDB {
 				lgr.log(Level.WARNING, e.getMessage(), e);
 				return false;
 			}
+			
+			this.getConnection().commit();
 			return true;
 		}
 		
@@ -317,7 +370,6 @@ public class ConnectionDB {
 				if (s != null) {
 					s.close();
 				}
-				this.closeConnection();
 			} catch (SQLException ex) {
 				Logger lgr = Logger.getLogger(ConnectionDB.class.getName());
 				lgr.log(Level.WARNING, ex.getMessage(), ex);

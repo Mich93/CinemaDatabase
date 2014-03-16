@@ -2,7 +2,9 @@ package controllers;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.ServletException;
@@ -68,23 +70,23 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
 		
 			else if(action.equals("create") || action.equals("update")){
 				Movie movie=new Movie(); //Create object for jsonarray translation
-				ArrayList<Object> matrr=new ArrayList(); //create object array for db insertion/update
+				Map <String, Object> matrr=new HashMap(); //create object hashmap for db insertion/update
 				if(request.getParameter("title")!=null){				   
 				   String title =request.getParameter("title");
 				   movie.setTitle(title);
-				   matrr.add(title); 
+				   matrr.put("title", title);
 				   System.out.println(title);
 				}
 				if(request.getParameter("category")!=null){
 					String category=(String)request.getParameter("category");
 					movie.setCategory(category);
-					matrr.add(category);
+					matrr.put("category", category);
 					System.out.println(category);
 				}
 				if(request.getParameter("directorname")!=null){
 				   String directorname=(String)request.getParameter("directorname");
 				   movie.setDirectorname(directorname);
-				   matrr.add(directorname);
+				   matrr.put("directorname", directorname);
 				   System.out.println(directorname);
 				}
 				try{											
@@ -96,6 +98,7 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
 						//Return Json in the format required by jTable plugin
 						String listData="{\"Result\":\"OK\",\"Record\":"+json+"}";											
 						response.getWriter().print(listData);
+						
 					}else if(action.equals("update")){//Update existing record
 						con.updateInTable("movie", matrr, "title", movie.getTitle());
 						String listData="{\"Result\":\"OK\"}";									
@@ -113,13 +116,15 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
 						con.deleteTuple("movie", "title", title);
 						String listData="{\"Result\":\"OK\"}";								
 						response.getWriter().print(listData);
+						
 					}
 				}catch(Exception ex){
 				String error="{\"Result\":\"ERROR\",\"Message\":"+ex.getStackTrace().toString()+"}";
 				response.getWriter().print(error);
 			}				
 		}
+			con.closeConnection();
 	 }
-	
+		
    }
 }
