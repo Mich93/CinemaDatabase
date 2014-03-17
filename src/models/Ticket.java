@@ -20,6 +20,11 @@ public class Ticket {
 	}
 
 
+	public Ticket() {
+		super();
+	}
+
+
 	public int getTicketid() {
 		return ticketid;
 	}

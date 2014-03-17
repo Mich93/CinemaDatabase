@@ -74,24 +74,37 @@ public class TicketController extends HttpServlet {
 				else if(action.equals("create") || action.equals("update")){
 					Ticket ticket=new Ticket(); //Create object for jsonarray translation
 					Map <String, Object> matrr=new HashMap(); //create object hashmap for db insertion/update
-					if(request.getParameter("title")!=null){				   
-					   String title =request.getParameter("title");
-					   ticket.setTitle(title);
-					   matrr.put("title", title);
+					if(request.getParameter("ticketid")!=null){				   
+					   String ticketid =request.getParameter("ticketid");
+					   int tickId=Integer.parseInt(ticketid);
+					   ticket.setTicketid(tickId);
+					   matrr.put("ticketid", tickId);
 					}
-					if(request.getParameter("category")!=null){
-						String category=(String)request.getParameter("category");
-						ticket.setCategory(category);
-						matrr.put("category", category);
+					if(request.getParameter("accountid")!=null){
+						String accountid=(String)request.getParameter("accountid");
+						ticket.setAccountid(accountid);
+						matrr.put("accountid", accountid);
 					}
-					if(request.getParameter("directorname")!=null){
-					   String directorname=(String)request.getParameter("directorname");
-					   ticket.setDirectorname(directorname);
-					   matrr.put("directorname", directorname);
+					if(request.getParameter("seatnr")!=null){				   
+						   String seatnr =request.getParameter("seatnr");
+						   int seatNr=Integer.parseInt(seatnr);
+						   ticket.setTicketid(seatNr);
+						   matrr.put("seatnr", seatNr);
+						}
+					if(request.getParameter("money")!=null){
+					   String money=(String)request.getParameter("money");
+					   ticket.setMoney(money);
+					   matrr.put("money", money);
 					}
+					if(request.getParameter("projectionid")!=null){				   
+						   String projectionid =request.getParameter("projectionid");
+						   int projectionId=Integer.parseInt(projectionid);
+						   ticket.setTicketid(projectionId);
+						   matrr.put("seatnr", projectionId);
+						}
 					try{											
 						if(action.equals("create")){//Create new record
-							con.insertIntoTable("movie", matrr);				
+							con.insertIntoTable("ticket", matrr);				
 							ticketlst.add(ticket);
 							//Convert Java Object to Json				
 							String json=gson.toJson(ticket);					
@@ -100,7 +113,7 @@ public class TicketController extends HttpServlet {
 							response.getWriter().print(listData);
 							
 						}else if(action.equals("update")){//Update existing record
-							con.updateInTable("movie", matrr, "title", ticket.getTitle());
+							con.updateInTable("ticket", matrr, "ticketid", String.valueOf(ticket.getTicketid()));
 							String listData="{\"Result\":\"OK\"}";									
 							response.getWriter().print(listData);
 						}
@@ -110,10 +123,10 @@ public class TicketController extends HttpServlet {
 					}
 				}else if(action.equals("delete")){//Delete record
 					try{
-						if(request.getParameter("title")!=null){
-							String title=(String)request.getParameter("title");
-							System.out.println(title);
-							con.deleteTuple("movie", "title", title);
+						if(request.getParameter("ticketid")!=null){
+							String ticketid=(String)request.getParameter("ticketid");
+							System.out.println(ticketid);
+							con.deleteTuple("ticket", "ticketid", ticketid);
 							String listData="{\"Result\":\"OK\"}";								
 							response.getWriter().print(listData);
 							
@@ -129,4 +142,4 @@ public class TicketController extends HttpServlet {
 	   }
 	}
 
-}
+

@@ -380,6 +380,50 @@ public class ConnectionDB {
 		return table;
 		
 	}
+	public ArrayList <ArrayList> getTableByNameWhere (String tablename, String where, String attribute) throws SQLException{
+		ArrayList <ArrayList> table = new ArrayList<>();
+		Statement s;
+		ResultSet rs;
+		ResultSetMetaData rsmd;
+		
+		if  (!tablename.isEmpty()){
+			tablename = tablename.toLowerCase();
+		
+			s = this.getConnection().createStatement();
+			rs = s.executeQuery("select * from "+tablename+" where "+attribute+"="+where); 
+			rsmd = rs.getMetaData();
+			
+			int noOfCols = rsmd.getColumnCount();
+			ArrayList<Object> tuple;
+			
+			while(rs.next()) {
+				tuple = new ArrayList<>();
+			for(int i = 1; i <= noOfCols; i++) {
+				Object a = rs.getObject(i);
+				tuple.add(a);
+				
+			 }
+			table.add(tuple);
+			
+			}
+			
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (s != null) {
+					s.close();
+				}
+			} catch (SQLException ex) {
+				Logger lgr = Logger.getLogger(ConnectionDB.class.getName());
+				lgr.log(Level.WARNING, ex.getMessage(), ex);
+			}
+			}
+
+		
+		return table;
+		
+	}
 	
 	
 	//DELETE METHODS
