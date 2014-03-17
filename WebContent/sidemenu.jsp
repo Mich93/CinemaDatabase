@@ -8,12 +8,12 @@
 
     <div id="menu">
         <div class="pure-menu pure-menu-open">
-            <a class="pure-menu-heading" href="#">Program</a>
+            <a class="pure-menu-heading" href="index.jsp">Program</a>
 
             <ul>
                 <li><a href="#">My Tickets</a></li>
                 <li><a href="#">Movies</a></li>
-                <li><a href="jsp/about.jsp">About</a></li>
+                <li><a href="about.jsp">About</a></li>
             </ul>
         </div>
     </div>

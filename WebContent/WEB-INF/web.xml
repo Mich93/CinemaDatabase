@@ -17,6 +17,14 @@
     <servlet-name>MovieController</servlet-name>
     <url-pattern>/MovieController</url-pattern>
   </servlet-mapping> 
+    <servlet>
+    <servlet-name>TicketController</servlet-name>
+    <servlet-class>controllers.TicketController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>TicketController</servlet-name>
+    <url-pattern>/TicketController</url-pattern>
+  </servlet-mapping> 
 <jsp-config>
     <jsp-property-group>
         <url-pattern>*.jsp</url-pattern>

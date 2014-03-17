@@ -58,7 +58,7 @@
 <body>
 
 <!-- Include sidemnu.jsp -->
-<jsp:include page="jsp/sidemenu.jsp"></jsp:include>
+<jsp:include page="sidemenu.jsp"></jsp:include>
 
 		<div id="main">
 			<div class="header">
