@@ -331,7 +331,7 @@ public class ConnectionDB {
 	}
 	
 	/**
-	 * 
+	 * Get the entire table
 	 * @param tablename
 	 * 
 	 * @throws SQLException
@@ -380,6 +380,15 @@ public class ConnectionDB {
 		return table;
 		
 	}
+	
+	/**
+	 * Get selected rows by an id
+	 * @param tablename
+	 * @param where
+	 * @param attribute
+	 * @return
+	 * @throws SQLException
+	 */
 	public ArrayList <ArrayList> getTableByNameWhere (String tablename, String where, String attribute) throws SQLException{
 		ArrayList <ArrayList> table = new ArrayList<>();
 		Statement s;

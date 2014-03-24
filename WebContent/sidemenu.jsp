@@ -11,8 +11,8 @@
             <a class="pure-menu-heading" href="index.jsp">Program</a>
 
             <ul>
-                <li><a href="#">My Tickets</a></li>
-                <li><a href="#">Movies</a></li>
+                <li><a href="tickets.jsp">My Tickets</a></li>
+                <li><a href="movies.jsp">Catalogue</a></li>
                 <li><a href="about.jsp">About</a></li>
             </ul>
         </div>

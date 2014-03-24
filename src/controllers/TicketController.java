@@ -26,7 +26,9 @@ public class TicketController extends HttpServlet {
 
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-			
+		String name=(String)request.getParameter("Email");
+		String passw = (String)request.getParameter("Password");
+		
 		}
 
 		
@@ -47,7 +49,7 @@ public class TicketController extends HttpServlet {
 					try{	
 						
 					//Fetch Data from Ticket Table
-						lst = con.getTableByName("ticket");
+						lst = con.getTableByNameWhere("ticket", id, "ticketid");
 						for (ArrayList<Object> m : lst){
 							Ticket item = new Ticket((Integer)m.get(0), m.get(1).toString(), (Integer)m.get(2) , m.get(3).toString(), (Integer)m.get(4));
 							ticketlst.add(item);

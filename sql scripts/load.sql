@@ -3,7 +3,7 @@ GROUP 03
 AUTHORS:
 Ciprian Ettore  Ettore.Ciprian@stud-inf.unibz.it
 Marco Zanellati Marco.Zanellati@stud-inf.unibz.it
-Grueber Julian  Julian.Goerfer@stud-inf.unibz.it
+Goerfer Julian  Julian.Goerfer@stud-inf.unibz.it
 Stefano Mich michste93@gmail.com 
 */
 
