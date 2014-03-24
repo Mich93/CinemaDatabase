@@ -38,12 +38,33 @@
                 </div>
 
                 <ul class="pricing-table-list">
+                    <li><img width="250" height="300" style="vertical-align: middle;" src="images/ettore.jpg" /></li>
                     <li>Matr. N 10154</li>
                     <li>cipettaro@gmail.com</li>
                 </ul>
 
             </div>
         </div>
+       <div class="pricing-tables pure-g">
+        <div class="pure-u-1 pure-u-med-1-3">
+            <div class="pricing-table pricing-table-free">
+                <div class="pricing-table-header">
+
+                    <span class="pricing-table-price">
+                        Stefano Mich <span></span>
+                    </span>
+                </div>
+
+                <ul class="pricing-table-list">
+                    <li><img width="250" height="300" style="vertical-align: middle;" src="images/mich-stefano.jpg" /></li>
+                    <li>Matr. N 10483</li>
+                    <li>michste93@gmail.com</li>
+                    
+                </ul>
+
+            </div>
+        </div>
+       
 
         <div class="pure-u-1 pure-u-med-1-3">
             <div class="pricing-table pricing-table-biz pricing-table-selected">
@@ -55,6 +76,7 @@
                 </div>
 
                 <ul class="pricing-table-list">
+                    <li><img width="250" height="300" style="vertical-align: middle;" src="images/marco-zann.jpg" /></li>
                     <li>Matr. N </li>                 
                 </ul>
               
@@ -71,6 +93,7 @@
                 </div>
 
                 <ul class="pricing-table-list">
+                    <li><img width="250" height="300" style="vertical-align: middle;" src="images/julian.jpg" /></li>
                     <li>Matr. N</li>                 
                 </ul>
          
