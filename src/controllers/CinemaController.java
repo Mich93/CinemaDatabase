@@ -1,6 +1,7 @@
 package controllers;
 
 import java.io.IOException;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,19 +17,17 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.reflect.TypeToken;
 
-import models.Ticket;
+import models.Cinema;
 import tools.ConnectionDB;
 
 
-public class TicketController extends HttpServlet {
+public class CinemaController extends HttpServlet {
 		
 	private static final long serialVersionUID = 1L;
 
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String name=(String)request.getParameter("Email");
-		String passw = (String)request.getParameter("Password");
-		
+			
 		}
 
 		
@@ -37,7 +36,7 @@ public class TicketController extends HttpServlet {
 		if(request.getParameter("action")!=null){
 				ConnectionDB con = new ConnectionDB(); 
 				List<ArrayList> lst;
-				List<Ticket> ticketlst = new ArrayList<Ticket>();
+				List<Cinema> Cinemalst = new ArrayList<Cinema>();
 				
 				String action=(String)request.getParameter("action");
 				String id = (String)request.getParameter("id");
@@ -48,17 +47,17 @@ public class TicketController extends HttpServlet {
 				if(action.equals("list")){
 					try{	
 						
-					//Fetch Data from Ticket Table
-						lst = con.getTableByNameWhere("ticket", id, "ticketid");
+					//Fetch Data from Cinema Table
+						lst = con.getTableByName("Cinema");
 						for (ArrayList<Object> m : lst){
-							Ticket item = new Ticket((Integer)m.get(0), m.get(1).toString(), (Integer)m.get(2) , m.get(3).toString(), (Integer)m.get(4));
-							ticketlst.add(item);
+							Cinema item = new Cinema((Integer)m.get(0), m.get(1).toString(), m.get(2).toString() , m.get(3).toString(), Time.valueOf(m.get(4).toString()),Time.valueOf(m.get(5).toString()));
+							Cinemalst.add(item);
 						}
 						
 					//Get Total Record Count for Pagination
-						int userCount=ticketlst.size();
+						int userCount=Cinemalst.size();
 					//Convert Java Object to Json				
-					JsonElement element = gson.toJsonTree(ticketlst, new TypeToken<List<Ticket>>() {}.getType());
+					JsonElement element = gson.toJsonTree(Cinemalst, new TypeToken<List<Cinema>>() {}.getType());
 					JsonArray jsonArray = element.getAsJsonArray();
 					String listData= jsonArray.toString();	
 					
@@ -74,48 +73,53 @@ public class TicketController extends HttpServlet {
 				}
 			
 				else if(action.equals("create") || action.equals("update")){
-					Ticket ticket=new Ticket(); //Create object for jsonarray translation
+					Cinema Cinema=new Cinema(); //Create object for jsonarray translation
 					Map <String, Object> matrr=new HashMap(); //create object hashmap for db insertion/update
-					if(request.getParameter("ticketid")!=null){				   
-					   String ticketid =request.getParameter("ticketid");
-					   int tickId=Integer.parseInt(ticketid);
-					   ticket.setTicketid(tickId);
-					   matrr.put("ticketid", tickId);
+					if(request.getParameter("cinemaid")!=null){				   
+					   String cinemaId =request.getParameter("cinemaid");
+					   int cinemaid=Integer.parseInt(cinemaId);
+					   Cinema.setCinemaid(cinemaid);
+					   matrr.put("cinemaid", cinemaid);
 					}
-					if(request.getParameter("accountid")!=null){
-						String accountid=(String)request.getParameter("accountid");
-						ticket.setAccountid(accountid);
-						matrr.put("accountid", accountid);
+					if(request.getParameter("name")!=null){
+						String name=(String)request.getParameter("name");
+						Cinema.setName(name);
+						matrr.put("name", name);
 					}
-					if(request.getParameter("seatnr")!=null){				   
-						   String seatnr =request.getParameter("seatnr");
-						   int seatNr=Integer.parseInt(seatnr);
-						   ticket.setSeatnr(seatNr);
-						   matrr.put("seatnr", seatNr);
+					if(request.getParameter("address")!=null){				   
+						   String address =request.getParameter("address");
+						   Cinema.setAddress(address);
+						   matrr.put("address", address);
 						}
-					if(request.getParameter("money")!=null){
-					   String money=(String)request.getParameter("money");
-					   ticket.setMoney(money);
-					   matrr.put("money", money);
+					if(request.getParameter("city")!=null){
+					   String city=(String)request.getParameter("city");
+					   Cinema.setCity(city);
+					   matrr.put("city", city);
 					}
-					if(request.getParameter("projectionid")!=null){				   
-						   String projectionid =request.getParameter("projectionid");
-						   int projectionId=Integer.parseInt(projectionid);
-						   ticket.setProjectionid(projectionId);
-						   matrr.put("projectionid", projectionId);
+					if(request.getParameter("openhr")!=null){				   
+						   String openHr =request.getParameter("openhr");
+						   Time openhr=Time.valueOf(openHr);
+						   Cinema.setOpenhr(openhr);
+						   matrr.put("openhr", openhr);
+						}
+					if(request.getParameter("closehr")!=null){				   
+						   String closeHr =request.getParameter("closehr");
+						   Time closehr=Time.valueOf(closeHr);
+						   Cinema.setClosehr(closehr);
+						   matrr.put("closehr", closehr);
 						}
 					try{											
 						if(action.equals("create")){//Create new record
-							con.insertIntoTable("ticket", matrr);				
-							ticketlst.add(ticket);
+							con.insertIntoTable("cinema", matrr);				
+							Cinemalst.add(Cinema);
 							//Convert Java Object to Json				
-							String json=gson.toJson(ticket);					
+							String json=gson.toJson(Cinema);					
 							//Return Json in the format required by jTable plugin
 							String listData="{\"Result\":\"OK\",\"Record\":"+json+"}";											
 							response.getWriter().print(listData);
 							
 						}else if(action.equals("update")){//Update existing record
-							con.updateInTable("ticket", matrr, "ticketid", String.valueOf(ticket.getTicketid()));
+							con.updateInTable("cinema", matrr, "cinemaid", String.valueOf(Cinema.getCinemaid()));
 							String listData="{\"Result\":\"OK\"}";									
 							response.getWriter().print(listData);
 						}
@@ -125,10 +129,10 @@ public class TicketController extends HttpServlet {
 					}
 				}else if(action.equals("delete")){//Delete record
 					try{
-						if(request.getParameter("ticketid")!=null){
-							String ticketid=(String)request.getParameter("ticketid");
-							System.out.println(ticketid);
-							con.deleteTuple("ticket", "ticketid", ticketid);
+						if(request.getParameter("cinemaid")!=null){
+							String Cinemaid=(String)request.getParameter("cinemaid");
+							System.out.println(Cinemaid);
+							con.deleteTuple("cinema", "cinemaid", Cinemaid);
 							String listData="{\"Result\":\"OK\"}";								
 							response.getWriter().print(listData);
 							
