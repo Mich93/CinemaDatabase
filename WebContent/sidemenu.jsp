@@ -8,9 +8,10 @@
 
     <div id="menu">
         <div class="pure-menu pure-menu-open">
-            <a class="pure-menu-heading" href="index.jsp">Program</a>
+            <a class="pure-menu-heading" href="index.jsp">Home</a>         
 
             <ul>
+            	<li><a href="program.jsp">Program</a></li>
                 <li><a href="tickets.jsp">My Tickets</a></li>
                 <li><a href="movies.jsp">Catalogue</a></li>
                 <li><a href="about.jsp">About</a></li>

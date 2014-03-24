@@ -391,15 +391,21 @@ public class ConnectionDB {
 	 */
 	public ArrayList <ArrayList> getTableByNameWhere (String tablename, String where, String attribute) throws SQLException{
 		ArrayList <ArrayList> table = new ArrayList<>();
-		Statement s;
+		
+		PreparedStatement ps;
 		ResultSet rs;
 		ResultSetMetaData rsmd;
 		
 		if  (!tablename.isEmpty()){
+			
 			tablename = tablename.toLowerCase();
-		
-			s = this.getConnection().createStatement();
-			rs = s.executeQuery("select * from "+tablename+" where "+attribute+"="+where); 
+			where = "'"+where+"'";
+			
+			String s = "select * from "+tablename+" where "+attribute+" = "+where;
+			ps = this.getConnection().prepareStatement(s);
+			System.out.println(ps.toString());
+			
+			rs = ps.executeQuery(); 
 			rsmd = rs.getMetaData();
 			
 			int noOfCols = rsmd.getColumnCount();
@@ -421,7 +427,7 @@ public class ConnectionDB {
 					rs.close();
 				}
 				if (s != null) {
-					s.close();
+					ps.close();
 				}
 			} catch (SQLException ex) {
 				Logger lgr = Logger.getLogger(ConnectionDB.class.getName());
@@ -459,7 +465,7 @@ public class ConnectionDB {
 			if (s != null) {
 				s.close();
 			}
-			this.closeConnection();
+
 		} catch (SQLException ex) {
 			Logger lgr = Logger.getLogger(ConnectionDB.class.getName());
 			lgr.log(Level.WARNING, ex.getMessage(), ex);
@@ -469,5 +475,53 @@ public class ConnectionDB {
 
 	}
 	
+	
+	 /**
+	  * 
+	  * @param email
+	  * @param password
+	  * @return
+	 * @throws SQLException 
+	  */
+	public String getIdByAccount(String email, String password) throws SQLException{
+		String id = null;
+		 PreparedStatement getAccount = null;
+		 email = "'"+email+"'";
+		 
+		    String statement =
+		        "select accountid, email, password " +
+		        "from account " +
+		        "where email = " + email;
+
+		try {
+			getAccount = this.getConnection().prepareStatement(statement);
+			System.out.println(getAccount.toString());
+			ResultSet values = getAccount.executeQuery();
+
+			values.next();
+
+			// Check password validation
+			if (values.getString(3).equals(password)) {
+				id = values.getString(1);
+				
+			} else {
+				id = null;
+				
+			}
+			System.out.println(id);
+			System.out.println(values.getString(3));
+
+		} catch (BatchUpdateException e) {
+			this.getConnection().rollback();
+			Logger lgr = Logger.getLogger(ConnectionDB.class.getName());
+			lgr.log(Level.WARNING, e.getMessage(), e);
+		} catch (SQLException e) {
+			Logger lgr = Logger.getLogger(ConnectionDB.class.getName());
+			lgr.log(Level.WARNING, e.getMessage(), e);
+
+		}
+        this.closeConnection();
+		return id;
+	}
 
 }

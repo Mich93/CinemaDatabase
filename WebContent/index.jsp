@@ -17,29 +17,30 @@
 
 		<div id="main">
 			<div class="header">
-				<h1>The most awesome Cinema Database</h1>
+				<h1>Cinema Booking System</h1>
 				<h2>A project by: Marco, Ettore , Stefano and Julian</h2>
 			</div>
 			
 			<div class="content">
 				
-				<h2 class="content-subhead">Now Let's Speak Some Latin</h2>
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
-					do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-					enim ad minim veniam, quis nostrud exercitation ullamco laboris
-					nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-					reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-					pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-					culpa qui officia deserunt mollit anim id est laborum.</p>
+				<h2 class="content-subhead">Our Project</h2>
+				<p>This site displays and manipulates some data of our database.</p>
 
-				<h2 class="content-subhead">Try Resizing your Browser</h2>
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
-					do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-					enim ad minim veniam, quis nostrud exercitation ullamco laboris
-					nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-					reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-					pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-					culpa qui officia deserunt mollit anim id est laborum.</p>
+				<h2 class="content-subhead">Functionalities</h2>
+				<p>The 'Program' tab displays the projection that are available on the database. 
+				    Projections can be updated, created or deleted.</p>
+				<p> The 'My Tickets' tab allows the user to view his/her tickets by querying the 
+				   account table and showing the corresponding tuples </p>
+				<p> The 'Catalogue' tab allows the user to manipulate the movies and actors stored in the database.
+				  </p>
+				  <p> The 'About' tab shows the team and its members.
+				  </p>
+				  
+				<h2 class="content-subhead">Implementation</h2> 
+				<p> This site has been implemented using Java servlets, Javascript and Html. </p>
+				  <p>  The tables are manipulated through Json arrays which are sent to a JQuery plugin, <a href="http://www.jtable.org/">Jtable</a>.</p>
+				  <p> The graphic implementation, which is also mobile responsive, has been created using <a href=http://purecss.io/>Pure Css</a>  </p>
+				  
 			</div>
 		</div>
 		

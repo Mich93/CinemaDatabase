@@ -9,30 +9,31 @@
 <link rel="stylesheet"
 	href="http://yui.yahooapis.com/pure/0.4.2/pure-min.css">
 <link href="css/side-menu.css" rel="stylesheet"></link>
-
-
+<!-- Include one of jTable styles. -->
+<link href="js/themes/metro/blue/jtable.min.css" rel="stylesheet" type="text/css" />
+<link href="js/jquery-ui-1.10.3.custom.css" rel="stylesheet" type="text/css" />
 <!-- Include jTable script file. -->
 <script src="js/jquery-1.8.2.js" type="text/javascript"></script>
 <script src="js/jquery-ui-1.10.3.custom.js" type="text/javascript"></script>
 <script src="js/jquery.jtable.js" type="text/javascript"></script>
+
+
 <script type="text/javascript">
 
     $(document).ready(function () {
         $('#TicketContainer').jtable({
-            title: 'Movies',
+            title: 'Tickets you booked',
             paging: true, //Enable paging
             sorting: true,
             multiSorting: true,
             pageSize: 10, //Set page size (default: 10)           
             actions: {
-                listAction: 'TicketController?action=list&id='+,
-                createAction:'TicketController?action=create',
-                updateAction: 'TicketController?action=update',
+                listAction: 'TicketController?action=list',
                 deleteAction: 'TicketController?action=delete'
             },
             fields: {
                 seatnr: {
-                	title:'Title',
+                	title:'Seat Number',
                     key: true,
                     list: true,
                     width: '50%',
@@ -41,12 +42,12 @@
                 money: {
                     title: 'Price',
                     width: '15%',
-                    edit:true
+                    edit:false
                 },
                 projectionid: {
-                    title: 'Director',
+                    title: 'Id',
                     width: '20%',
-                    edit:true
+                    edit:false
                 }             
             }
         });
@@ -76,8 +77,8 @@
 					<fieldset>
 						<legend>Enter your e-mail and password </legend>
 
-						<input type="email" placeholder="Email"> <input
-							type="password" placeholder="Password">
+						<input type="email" name="email" placeholder="Email"> <input
+							type="password" name="password" placeholder="Password">
 
 						<button type="submit" class="pure-button pure-button-primary">Sign
 							in</button>
@@ -87,7 +88,10 @@
 
 			<h2 class="content-subhead">Your tickets</h2>
 			<!-- Table container for Movies -->
-			<div></div>
+			<div
+				style="width: 80%; margin-right: 10%; margin-left: 10%; text-align: center;">
+				<div id="TicketContainer"></div>
+			</div>
 
 
 		</div>

@@ -53,6 +53,43 @@
         $('#MovieContainer').jtable('load');
     });
 </script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#ActorContainer').jtable({
+            title: 'Movies',
+            paging: true, //Enable paging
+            sorting: true,
+            multiSorting: true,
+            pageSize: 10, //Set page size (default: 10)           
+            actions: {
+                listAction: 'ActorController?action=list',
+                createAction:'ActorController?action=create',
+                updateAction: 'ActorController?action=update',
+                deleteAction: 'ActorController?action=delete'
+            },
+            fields: {
+                actorid: {
+                	title:'Id',
+                    key: true,
+                    list: true,
+                    width: '50%',
+                    create:true
+                },
+                name: {
+                    title: 'Name',
+                    width: '15%',
+                    edit:true
+                },
+                surname: {
+                    title: 'Surname',
+                    width: '20%',
+                    edit:true
+                }             
+            }
+        });
+        $('#ActorContainer').jtable('load');
+    });
+</script>
 </head>
 
 <!--  BODY ------------------------------------------------------------------------------------------------ -->
@@ -77,10 +114,10 @@
 			</div>
 			
 			<h2 class="content-subhead">Actors</h2>
-			<!-- Table container for Movies -->
+			<!-- Table container for Actors -->
 			<div
-				style="width: 60%; margin-right: 20%; margin-left: 20%; text-align: center;">
-				<div id="MovieContainer"></div>
+				style="width: 80%; margin-right: 10%; margin-left: 10%; text-align: center;">
+				<div id="ActorContainer"></div>
 			</div>
 
 											
