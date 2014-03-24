@@ -477,7 +477,7 @@ public class ConnectionDB {
 	
 	
 	 /**
-	  * 
+	  * Check the account table and return an id if password and email match
 	  * @param email
 	  * @param password
 	  * @return
