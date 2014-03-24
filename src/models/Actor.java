@@ -2,7 +2,7 @@ package models;
 
 public class Actor {
 private String name,surname;
-private static int actorid;
+private int actorid;
 
 public Actor() {
 	super();
@@ -25,11 +25,15 @@ public String getSurname() {
 public void setSurname(String surname) {
 	this.surname = surname;
 }
-public static int getActorid() {
+public int getActorid() {
 	return actorid;
 }
 public void setActorid(int actorid) {
 	this.actorid = actorid;
+}
+@Override
+public String toString() {
+	return "Actor [name=" + name + ", surname=" + surname + "]";
 }
 
 

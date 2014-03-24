@@ -104,7 +104,7 @@ public class ActorController extends HttpServlet {
 							response.getWriter().print(listData);
 							
 						}else if(action.equals("update")){//Update existing record
-							con.updateInTable("Actor", matrr, "actorid", String.valueOf(Actor.getActorid()));
+							con.updateInTable("Actor", matrr, "actorid", String.valueOf(actor.getActorid()));
 							String listData="{\"Result\":\"OK\"}";									
 							response.getWriter().print(listData);
 						}

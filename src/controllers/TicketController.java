@@ -31,7 +31,7 @@ public class TicketController extends HttpServlet {
 //DoGet checks account table for an id and set the response right
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		
+			
 		if(request.getParameter("password") != null){
 			String email=(String)request.getParameter("email");
 			String passw = (String)request.getParameter("password");

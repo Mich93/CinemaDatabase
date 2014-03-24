@@ -22,7 +22,7 @@
             title: 'Movies',
             paging: true, //Enable paging
             sorting: true,
-            multiSorting: true,
+            defaultSorting: 'Name ASC',
             pageSize: 10, //Set page size (default: 10)           
             actions: {
                 listAction: 'MovieController?action=list',
@@ -52,14 +52,12 @@
         });
         $('#MovieContainer').jtable('load');
     });
-</script>
-<script type="text/javascript">
+    
     $(document).ready(function () {
         $('#ActorContainer').jtable({
-            title: 'Movies',
+            title: 'Actors',
             paging: true, //Enable paging
             sorting: true,
-            multiSorting: true,
             pageSize: 10, //Set page size (default: 10)           
             actions: {
                 listAction: 'ActorController?action=list',
@@ -72,17 +70,17 @@
                 	title:'Id',
                     key: true,
                     list: true,
-                    width: '50%',
+                    width: '10%',
                     create:true
                 },
                 name: {
                     title: 'Name',
-                    width: '15%',
+                    width: '45%',
                     edit:true
                 },
                 surname: {
                     title: 'Surname',
-                    width: '20%',
+                    width: '45%',
                     edit:true
                 }             
             }
