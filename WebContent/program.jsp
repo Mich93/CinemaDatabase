@@ -22,7 +22,7 @@
 
     $(document).ready(function () {
         $('#ProjectionContainer').jtable({
-            title: 'Tickets you booked',
+            title: '',
             paging: true, //Enable paging
             sorting: true,
             multiSorting: true,
@@ -34,23 +34,44 @@
                 deleteAction: 'ProjectionController?action=delete'
             },
             fields: {
-                seatnr: {
-                	title:'Seat Number',
+            	id: {
+                	title:'Id',
                     key: true,
                     list: true,
-                    width: '50%',
-                    create:true
+                    width: '10%',
+                    create:true,
+                    visible:false
                 },
-                money: {
-                    title: 'Price',
+                language: {
+                    title: 'Language',
                     width: '15%',
-                    edit:false
+                    edit:true
                 },
-                projectionid: {
-                    title: 'Id',
+                projectiondate: {
+                    title: 'Date',
                     width: '20%',
-                    edit:false
-                }             
+                    edit:true
+                },  
+                starthr: {
+                    title: 'Start',
+                    width: '10%',
+                    edit:true
+                },
+                endthr: {
+                    title: 'End',
+                    width: '10%',
+                    edit:true
+                },
+                theaterNr: {
+                    title: 'Theater',
+                    width: '10%',
+                    edit:true
+                },
+                movietitle: {
+                    title: 'Movie',
+                    width: '25%',
+                    edit:true
+                }           
             }
         });
         $('#ProjectionContainer').jtable('load');
@@ -63,10 +84,20 @@
 
 	<!-- Include sidemnu.jsp -->
 	<jsp:include page="sidemenu.jsp"></jsp:include>
-
+	<div id="main">
+			<div class="header">
+				<h1>What is on this week ?</h1>
+				
+    <h2 class="content-subhead">Program</h2>
+			<!-- Table container for Projections -->
+			<div
+				style="width: 80%; margin-right: 10%; margin-left: 10%; text-align: center;">
+				<div id="ProjectionContainer"></div>
+			</div>
 
 	
-
+      </div>
+      </div>
 	</div>
 </body>
 </html>

@@ -41,7 +41,8 @@
                 category: {
                     title: 'Category',
                     width: '15%',
-                    edit:true
+                    edit:true,
+                    options:["Action", "Adventure", "Comedy", "Crime", "Erotica", "Faction", "Fantasy", "Historical", "Horror", "Mystery", "Paranoid", "Philosophical", "Political", "Romance", "Saga", "Satire", "Science fiction", "Slice of Life", "Speculative", "Thriller", "Urban"]
                 },
                 directorname: {
                     title: 'Director',
