@@ -54,6 +54,65 @@
         $('#TicketContainer').jtable('load');
     });
 </script>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $('#ProjectionContainer').jtable({
+            title: '',
+            paging: true, //Enable paging
+            sorting: true,
+            selecting: true,
+            multiselect: true,
+            pageSize: 10, //Set page size (default: 10)           
+            actions: {
+                listAction: 'TicketController?action=list',
+                createAction: 'TicketController?action=create',
+                updateAction: 'TicketController?action=update',            		
+                deleteAction: 'TicketController?action=delete'
+            },
+            fields: {
+            	id: {
+                	title:'Id',
+                    key: true,
+                    list: true,
+                    width: '10%',
+                    create:true
+                },
+                language: {
+                    title: 'Language',
+                    width: '15%',
+                    edit:true
+                },
+                date: {
+                    title: 'Date',
+                    width: '20%',
+                    edit:true
+                },  
+                start: {
+                    title: 'Start',
+                    width: '10%',
+                    edit:true
+                },
+                end: {
+                    title: 'End',
+                    width: '10%',
+                    edit:true
+                },
+                theaterNr: {
+                    title: 'Theater',
+                    width: '10%',
+                    edit:true
+                },
+                movie: {
+                    title: 'Movie',
+                    width: '25%',
+                    edit:true
+                }           
+            }
+        });
+        $('#ProjectionContainer').jtable('load');
+    });
+</script>
 </head>
 
 <!--  BODY ------------------------------------------------------------------------------------------------ -->
@@ -90,7 +149,7 @@
 			<!-- Table container for Movies -->
 			<div
 				style="width: 80%; margin-right: 10%; margin-left: 10%; text-align: center;">
-				<div id="TicketContainer"></div>
+				<div id="ProjectionContainer"></div>
 			</div>
 
 

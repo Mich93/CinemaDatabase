@@ -25,6 +25,8 @@
             title: '',
             paging: true, //Enable paging
             sorting: true,
+            selecting: true,
+            multiselect: true,
             pageSize: 10, //Set page size (default: 10)           
             actions: {
                 listAction: 'ProjectionController?action=list',

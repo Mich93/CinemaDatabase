@@ -17,6 +17,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.reflect.TypeToken;
 
+import models.Projection;
 import models.Ticket;
 import tools.ConnectionDB;
 
@@ -64,7 +65,7 @@ public class TicketController extends HttpServlet {
 		if(request.getParameter("action")!=null){
 				
 				List<ArrayList> lst;
-				List<Ticket> ticketlst = new ArrayList<Ticket>();
+				List<Projection> prjctlist = new ArrayList<Projection>();
 				
 				action=(String)request.getParameter("action");
 				
@@ -75,16 +76,16 @@ public class TicketController extends HttpServlet {
 					try{	
 						
 					//Fetch Data from Ticket Table
-						lst = con.getTableByNameWhere("ticket", id, "accountid");
+						lst = con.getTableByNameWithJoin("projection","ticket","projectionid","accountid",id);
 						for (ArrayList<Object> m : lst){
-							Ticket item = new Ticket((Integer)m.get(0), m.get(1).toString(), (Integer)m.get(2) , m.get(3).toString(), (Integer)m.get(4));
-							ticketlst.add(item);
+							Projection item = new Projection((Integer)m.get(0), m.get(1).toString(), m.get(2).toString(), m.get(3).toString(), m.get(4).toString(), (Integer)m.get(5), m.get(6).toString());
+							prjctlist.add(item);
 						}
 						
 					//Get Total Record Count for Pagination
-						int userCount=ticketlst.size();
+						int userCount=prjctlist.size();
 					//Convert Java Object to Json				
-					JsonElement element = gson.toJsonTree(ticketlst, new TypeToken<List<Ticket>>() {}.getType());
+					JsonElement element = gson.toJsonTree(prjctlist, new TypeToken<List<Projection>>() {}.getType());
 					JsonArray jsonArray = element.getAsJsonArray();
 					String listData= jsonArray.toString();	
 					
@@ -99,10 +100,10 @@ public class TicketController extends HttpServlet {
 					}								
 				}else if(action.equals("delete")){//Delete record
 					try{
-						if(request.getParameter("ticketid")!=null){
-							String ticketid=(String)request.getParameter("ticketid");
-							System.out.println(ticketid);
-							con.deleteTuple("ticket", "ticketid", ticketid);
+						if(request.getParameter("projectionid")!=null){
+							String projectionid=(String)request.getParameter("projectionid");
+							System.out.println(projectionid);
+							con.deleteTuple("projection", "projectionid", projectionid);
 							String listData="{\"Result\":\"OK\"}";								
 							response.getWriter().print(listData);
 							

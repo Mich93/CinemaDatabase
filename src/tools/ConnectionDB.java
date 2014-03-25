@@ -391,6 +391,62 @@ public class ConnectionDB {
 	 * @return
 	 * @throws SQLException
 	 */
+	
+	
+	public ArrayList <ArrayList> getTableByNameWithJoin (String tablename1,String tablename2, String attribute1,String attribute2,String id) throws SQLException{
+		ArrayList <ArrayList> table = new ArrayList<>();
+		
+		PreparedStatement ps;
+		ResultSet rs;
+		ResultSetMetaData rsmd;
+		
+		if  (!tablename1.isEmpty() && !tablename2.isEmpty()){
+			
+			tablename1 = tablename1.toLowerCase();
+			tablename1 = tablename2.toLowerCase();
+			attribute1 = attribute1.toLowerCase();
+			attribute2 = attribute2.toLowerCase();
+			id = "'"+id+"'";
+			
+			
+			String s=" select * from projection where "+attribute1+" = (select "+attribute1+" from "+tablename2+" where "+attribute2+" = "+id+")"; 
+			ps = this.getConnection().prepareStatement(s);
+			System.out.println(ps.toString());
+			
+			rs = ps.executeQuery(); 
+			rsmd = rs.getMetaData();
+			
+			int noOfCols = rsmd.getColumnCount();
+			ArrayList<Object> tuple;
+			
+			while(rs.next()) {
+				tuple = new ArrayList<>();
+			for(int i = 1; i <= noOfCols; i++) {
+				Object a = rs.getObject(i);
+				tuple.add(a);
+				
+			 }
+			table.add(tuple);
+			
+			}
+			
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (s != null) {
+					ps.close();
+				}
+			} catch (SQLException ex) {
+				Logger lgr = Logger.getLogger(ConnectionDB.class.getName());
+				lgr.log(Level.WARNING, ex.getMessage(), ex);
+			}
+			}
+
+		
+		return table;
+		
+	}
 	public ArrayList <ArrayList> getTableByNameWhere (String tablename, String where, String attribute) throws SQLException{
 		ArrayList <ArrayList> table = new ArrayList<>();
 		
