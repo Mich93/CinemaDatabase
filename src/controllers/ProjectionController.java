@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -18,12 +19,14 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.reflect.TypeToken;
 
-public class ProjectionController {
+public class ProjectionController extends HttpServlet {
 	
 	private String action = null;
 	private ConnectionDB con; 
 
-
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
@@ -44,6 +47,7 @@ public class ProjectionController {
 					for (ArrayList<Object> m : lst){
 						Projection item = new Projection((Integer)m.get(0), m.get(1).toString(), m.get(2).toString(), m.get(3).toString(), m.get(4).toString(), (Integer)m.get(5), m.get(6).toString());
 						projectionlst.add(item);
+						System.out.println(item);
 					}
 					
 				//Get Total Record Count for Pagination
@@ -54,7 +58,8 @@ public class ProjectionController {
 				String listData= jsonArray.toString();	
 				
 				//Return Json in the format required by jTable plugin				
-				listData="{\"Result\":\"OK\",\"Records\":"+listData+",\"TotalRecordCount\":"+userCount+"}";			
+				listData="{\"Result\":\"OK\",\"Records\":"+listData+",\"TotalRecordCount\":"+userCount+"}";	
+				
 				response.getWriter().print(listData);
 				}catch(Exception ex){
 					String error="{\"Result\":\"ERROR\",\"Message\":"+ex.getMessage()+"}";
@@ -75,7 +80,7 @@ public class ProjectionController {
 				if(request.getParameter("language")!=null){
 					String language=(String)request.getParameter("language");
 					proj.setLanguage(language);
-					matrr.put("category", language);
+					matrr.put("language", language);
 					System.out.println(language);
 				}
 				if(request.getParameter("projectiondate")!=null){

@@ -25,7 +25,6 @@
             title: '',
             paging: true, //Enable paging
             sorting: true,
-            multiSorting: true,
             pageSize: 10, //Set page size (default: 10)           
             actions: {
                 listAction: 'ProjectionController?action=list',
@@ -46,17 +45,17 @@
                     width: '15%',
                     edit:true
                 },
-                projectiondate: {
+                date: {
                     title: 'Date',
                     width: '20%',
                     edit:true
                 },  
-                starthr: {
+                start: {
                     title: 'Start',
                     width: '10%',
                     edit:true
                 },
-                endthr: {
+                end: {
                     title: 'End',
                     width: '10%',
                     edit:true
@@ -66,7 +65,7 @@
                     width: '10%',
                     edit:true
                 },
-                movietitle: {
+                movie: {
                     title: 'Movie',
                     width: '25%',
                     edit:true
@@ -97,6 +96,6 @@
 	
       </div>
       </div>
-	</div>
+	
 </body>
 </html>
