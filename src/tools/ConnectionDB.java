@@ -224,7 +224,7 @@ public class ConnectionDB {
 				this.getConnection().setAutoCommit( false );
 				Statement s = this.getConnection().createStatement();
 				s.addBatch( insertString.toString());
-				updateCounts = s.executeBatch();
+				s.executeUpdate(insertString.toString());
 			}
 			catch ( BatchUpdateException e ) { 
 				this.getConnection().rollback();
@@ -234,6 +234,8 @@ public class ConnectionDB {
 				
 			}
 			catch ( SQLException e ) { 
+				Logger lgr = Logger.getLogger(ConnectionDB.class.getName());
+				lgr.log(Level.WARNING, e.getMessage(), e);	
 				return false;
 			}
 			this.getConnection().commit();

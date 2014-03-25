@@ -1,13 +1,14 @@
 package models;
 
 public class Actor {
-private String name,surname;
 private int actorid;
+private String name,surname;
+
 
 public Actor() {
 	super();
 }
-public Actor(String name, String surname, int actorid) {
+public Actor(int actorid, String name, String surname) {
 	super();
 	this.name = name;
 	this.surname = surname;
@@ -33,8 +34,10 @@ public void setActorid(int actorid) {
 }
 @Override
 public String toString() {
-	return "Actor [name=" + name + ", surname=" + surname + "]";
+	return "Actor [actorid=" + actorid + ", name=" + name + ", surname="
+			+ surname + "]";
 }
+
 
 
 }

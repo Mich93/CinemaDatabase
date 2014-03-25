@@ -50,7 +50,7 @@ public class ActorController extends HttpServlet {
 					//Fetch Data from actor Table
 						lst = con.getTableByName("actor");
 						for (ArrayList<Object> m : lst){
-							Actor item = new Actor(m.get(1).toString(), m.get(2).toString() , (Integer)m.get(0) );
+							Actor item = new Actor((Integer)m.get(0), m.get(1).toString() , m.get(2).toString() );
 							actorlst.add(item);
 						}
 						
@@ -95,7 +95,7 @@ public class ActorController extends HttpServlet {
 						
 					try{											
 						if(action.equals("create")){//Create new record
-							con.insertIntoTable("Actor", matrr);				
+							con.insertIntoTable("actor", matrr);				
 							actorlst.add(actor);
 							//Convert Java Object to Json				
 							String json=gson.toJson(actor);					
@@ -104,9 +104,10 @@ public class ActorController extends HttpServlet {
 							response.getWriter().print(listData);
 							
 						}else if(action.equals("update")){//Update existing record
-							con.updateInTable("Actor", matrr, "actorid", String.valueOf(actor.getActorid()));
+							con.updateInTable("actor", matrr, "actorid", String.valueOf(actor.getActorid()));
 							String listData="{\"Result\":\"OK\"}";									
 							response.getWriter().print(listData);
+							
 						}
 					}catch(Exception ex){
 							String error="{\"Result\":\"ERROR\",\"Message\":"+ex.getStackTrace().toString()+"}";
