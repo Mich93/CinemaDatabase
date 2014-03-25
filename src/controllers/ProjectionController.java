@@ -47,7 +47,6 @@ public class ProjectionController extends HttpServlet {
 					for (ArrayList<Object> m : lst){
 						Projection item = new Projection((Integer)m.get(0), m.get(1).toString(), m.get(2).toString(), m.get(3).toString(), m.get(4).toString(), (Integer)m.get(5), m.get(6).toString());
 						projectionlst.add(item);
-						System.out.println(item);
 					}
 					
 				//Get Total Record Count for Pagination
@@ -58,8 +57,7 @@ public class ProjectionController extends HttpServlet {
 				String listData= jsonArray.toString();	
 				
 				//Return Json in the format required by jTable plugin				
-				listData="{\"Result\":\"OK\",\"Records\":"+listData+",\"TotalRecordCount\":"+userCount+"}";	
-				
+				listData="{\"Result\":\"OK\",\"Records\":"+listData+",\"TotalRecordCount\":"+userCount+"}";			
 				response.getWriter().print(listData);
 				}catch(Exception ex){
 					String error="{\"Result\":\"ERROR\",\"Message\":"+ex.getMessage()+"}";
@@ -80,7 +78,7 @@ public class ProjectionController extends HttpServlet {
 				if(request.getParameter("language")!=null){
 					String language=(String)request.getParameter("language");
 					proj.setLanguage(language);
-					matrr.put("language", language);
+					matrr.put("category", language);
 					System.out.println(language);
 				}
 				if(request.getParameter("projectiondate")!=null){
