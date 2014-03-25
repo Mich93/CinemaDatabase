@@ -25,6 +25,22 @@
     <servlet-name>TicketController</servlet-name>
     <url-pattern>/TicketController</url-pattern>
   </servlet-mapping> 
+  <servlet>
+    <servlet-name>ActorController</servlet-name>
+    <servlet-class>controllers.ActorController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ActorController</servlet-name>
+    <url-pattern>/ActorController</url-pattern>
+  </servlet-mapping> 
+    <servlet>
+    <servlet-name>ProjectionController</servlet-name>
+    <servlet-class>controllers.ProjectionController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ProjectionController</servlet-name>
+    <url-pattern>/ProjectionController</url-pattern>
+  </servlet-mapping> 
 <jsp-config>
     <jsp-property-group>
         <url-pattern>*.jsp</url-pattern>

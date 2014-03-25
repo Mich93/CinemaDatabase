@@ -39,8 +39,7 @@
                     key: true,
                     list: true,
                     width: '10%',
-                    create:true,
-                    visible:false
+                    create:true
                 },
                 language: {
                     title: 'Language',

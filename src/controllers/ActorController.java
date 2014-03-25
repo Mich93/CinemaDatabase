@@ -50,7 +50,7 @@ public class ActorController extends HttpServlet {
 					//Fetch Data from actor Table
 						lst = con.getTableByName("actor");
 						for (ArrayList<Object> m : lst){
-							Actor item = new Actor(m.get(0).toString(), m.get(1).toString() , (Integer)m.get(2) );
+							Actor item = new Actor(m.get(1).toString(), m.get(2).toString() , (Integer)m.get(0) );
 							actorlst.add(item);
 						}
 						
