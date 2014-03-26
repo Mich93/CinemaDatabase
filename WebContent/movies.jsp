@@ -73,7 +73,7 @@
                     key: true,
                     list: true,
                     width: '10%',
-                    create:true
+                    create:false
                 },
                 name: {
                     title: 'Name',

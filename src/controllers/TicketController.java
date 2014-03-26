@@ -76,7 +76,7 @@ public class TicketController extends HttpServlet {
 					try{	
 						
 					//Fetch Data from Ticket Table
-						lst = con.getTableByNameWithJoin("projection","ticket","projectionid","accountid",id);
+						lst = con.getTableByNameWithJoin("projection","ticket","projectionid","accountid", id);
 						for (ArrayList<Object> m : lst){
 							Projection item = new Projection((Integer)m.get(0), m.get(1).toString(), m.get(2).toString(), m.get(3).toString(), m.get(4).toString(), (Integer)m.get(5), m.get(6).toString());
 							prjctlist.add(item);

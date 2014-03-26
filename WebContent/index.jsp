@@ -37,9 +37,10 @@
 				  </p>
 				  
 				<h2 class="content-subhead">Implementation</h2> 
+				<p>To inspect the code you can also clone <a href="https://github.com/Mich93/CinemaDatabase" target="_blanc">our Repository</a> </p>
 				<p> This site has been implemented using Java servlets, Javascript and Html. </p>
-				  <p>  The tables are manipulated through Json arrays which are sent to a JQuery plugin, <a href="http://www.jtable.org/">Jtable</a>.</p>
-				  <p> The graphic implementation, which is also mobile responsive, has been created using <a href=http://purecss.io/>Pure Css</a>  </p>
+				<p>  The tables are manipulated through Json arrays which are sent to a JQuery plugin, <a href="http://www.jtable.org/" target="_blanc">Jtable</a>.</p>
+				<p> The graphic implementation, which is also mobile responsive, has been created using <a href="http://purecss.io" target="_blanc"/>Pure Css</a>  </p>
 				  
 			</div>
 		</div>
