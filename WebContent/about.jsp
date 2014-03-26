@@ -77,7 +77,7 @@
 
                 <ul class="pricing-table-list">
                     <li><img width="250" height="300" style="vertical-align: middle;" src="images/marco-zann.jpg" /></li>
-                    <li>Matr. N </li>                 
+                    <li>Matr. N 10527 </li>                 
                 </ul>
               
             </div>
@@ -94,7 +94,7 @@
 
                 <ul class="pricing-table-list">
                     <li><img width="250" height="300" style="vertical-align: middle;" src="images/julian.jpg" /></li>
-                    <li>Matr. N</li>                 
+                    <li>Matr. N 10370</li>                 
                 </ul>
          
             </div>
