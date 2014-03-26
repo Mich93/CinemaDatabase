@@ -53,7 +53,8 @@
         });
         $('#MovieContainer').jtable('load');
     });
-    
+ </script>   
+ <script type="text/javascript">    
     $(document).ready(function () {
         $('#ActorContainer').jtable({
             title: 'Actors',

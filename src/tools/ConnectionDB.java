@@ -209,12 +209,23 @@ public class ConnectionDB {
 			try
 			{
 				StringBuilder insertString = new StringBuilder();
-				insertString.append( "INSERT INTO " + tablename + " VALUES (" );
+				insertString.append( "INSERT INTO " + tablename + " (" );
+				Iterator<String> keyit = values.keySet().iterator();
 				int elemCount = 0;
-				Iterator<Entry<String, Object>> it = values.entrySet().iterator();
+				while (  keyit.hasNext() ) {
+					String key = keyit.next();
+					insertString.append( key );
+					elemCount++;
+					if ( elemCount < values.size() )
+						insertString.append( ", " );
+				}
+				
+				Iterator<Object> it = values.values().iterator();
+				insertString.append(") VALUES( ");			
+				elemCount = 0;
 				while (  it.hasNext() ) {
-					Entry<String, Object> pairs = it.next();
-					insertString.append( "'"+pairs.getValue()+"'" );
+					Object value = it.next();
+					insertString.append( "'"+value+"'" );
 					elemCount++;
 					if ( elemCount < values.size() )
 						insertString.append( ", " );
