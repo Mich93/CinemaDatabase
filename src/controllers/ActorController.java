@@ -80,16 +80,19 @@ public class ActorController extends HttpServlet {
 					   int actorid=Integer.parseInt(actorId);
 					   actor.setActorid(actorid);
 					   matrr.put("actorid", actorid);
+					   System.out.println(actorid);
 					}
 					if(request.getParameter("name")!=null){
 						String name=(String)request.getParameter("name");
 						actor.setName(name);
 						matrr.put("name", name);
+						System.out.println(name);
 					}
 					if(request.getParameter("surname")!=null){				   
 						   String surname =request.getParameter("surname");
 						   actor.setSurname(surname);
 						   matrr.put("surname", surname);
+						   System.out.println(surname);
 						}
 					
 						
