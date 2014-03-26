@@ -30,7 +30,7 @@
 				<p>The 'Program' tab displays the projection that are available on the database. 
 				    Projections can be updated, created or deleted.</p>
 				<p> The 'My Tickets' tab allows the user to view his/her tickets by querying the 
-				   account table and showing the corresponding tuples </p>
+				   account table and showing the corresponding tuples. Try it by entering <br><b>Username:</b> <i>Ettore.Ciprian@stud-inf.unibz.it</i> <br><b>password:</b>  <i>sottone93</i> </p>
 				<p> The 'Catalogue' tab allows the user to manipulate the movies and actors stored in the database.
 				  </p>
 				  <p> The 'About' tab shows the team and its members.
