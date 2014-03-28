@@ -94,7 +94,17 @@
 				style="width: 80%; margin-right: 10%; margin-left: 10%; text-align: center;">
 				<div id="ProjectionContainer"></div>
 			</div>
-
+            <form action="TicketController" method="GET" class="pure-form">
+			  
+			      <h2>Enter your credentials and the projection you want to book</h2>
+			                <input type="email" name="email" placeholder="Email"> <input
+							type="password" name="password" placeholder="Password"><br>
+							<input type="projectionid" name="projectionid" placeholder="ID">
+			                 <input type="Movie" name="movie" placeholder="Movie"> 
+                            <button type="submit" class="pure-button pure-button-primary">Sign
+							in and book ticket</button>
+               
+	         </form>
 	
       </div>
       </div>

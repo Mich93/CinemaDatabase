@@ -42,7 +42,27 @@ public class TicketController extends HttpServlet {
 		try {
 //			getServletConfig().getServletContext().getRequestDispatcher("index.jsp").forward(request, response);
 			id = con.getIdByAccount(email, passw);
-			
+			if(id==null){
+				response.sendRedirect("Error.jsp");
+		    	return;
+				
+			}
+			if(request.getParameter("projectionid").equals("") | request.getParameter("projectionid").equals("")){
+				response.sendRedirect("Error.jsp");
+		    	return;
+			}
+			 if(request.getParameter("projectionid") != null && id != null){
+			    	String movie=(String)request.getParameter("movie");
+				    String projectionid=(String)request.getParameter("projectionid");
+				    String isRightMovie=con.checkMovieId(movie, projectionid);
+				    if(!isRightMovie.equals(movie)){
+				    	response.sendRedirect("Error.jsp");
+				    	return;
+				    }
+				    else{
+				    
+				    con.insertIntoTicket("ticket", projectionid, id);
+				    }
 			if (id != null){
 			session.setAttribute("action", "list");	
 			session.setAttribute("id", id);
@@ -52,12 +72,13 @@ public class TicketController extends HttpServlet {
 			else{
 				response.sendRedirect("tickets.jsp");
 			}
-				
+	      }	
 		} 
 		catch (Exception ex) {
 				ex.printStackTrace();
 			}	
 		}
+		
 	}
 		
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

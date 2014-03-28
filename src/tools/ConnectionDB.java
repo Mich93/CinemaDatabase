@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Random;
 import java.util.Map.Entry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -600,6 +601,79 @@ public class ConnectionDB {
 		}
 		this.closeConnection();
 		return id;
+	}
+	public String checkMovieId (String movie, String projectionid) throws SQLException{
+		 String result=null;
+		 PreparedStatement getAccount = null;
+		 movie = "'"+movie+"'";
+		 
+		    String statement =
+		        "select movietitle " +
+		        "from projection " +
+		        "where projectionid = " + projectionid;
+
+		try {
+			getAccount = this.getConnection().prepareStatement(statement);
+			System.out.println(getAccount.toString());
+			ResultSet values = getAccount.executeQuery();
+			
+			while (values.next()) {
+				
+				result=values.getObject(1).toString();
+
+				}
+		} catch (BatchUpdateException e) {
+			this.getConnection().rollback();
+			Logger lgr = Logger.getLogger(ConnectionDB.class.getName());
+			lgr.log(Level.WARNING, e.getMessage(), e);
+		} catch (SQLException e) {
+			Logger lgr = Logger.getLogger(ConnectionDB.class.getName());
+			lgr.log(Level.WARNING, e.getMessage(), e);
+
+		}
+       this.closeConnection();
+		return result;
+	}
+public void insertIntoTicket (String tablename1, String projectionid,String id) throws SQLException{
+		
+		
+		PreparedStatement ps;
+		ResultSet rs;
+		ResultSetMetaData rsmd;
+		
+		if  (!tablename1.isEmpty()){
+			
+			tablename1 = tablename1.toLowerCase();
+			id = "'"+id+"'";
+						
+			Random randomGenerator = new Random();
+		    int randomInt = randomGenerator.nextInt(150);
+			
+		    
+		   
+			String s=" Insert into "+tablename1+"(accountId, seatNr, price, projectionId) VALUES ("+id+", "+randomInt+", 7.50, "+projectionid+" )"; 
+			ps = this.getConnection().prepareStatement(s);
+			System.out.println(ps.toString());
+			
+			ps.execute(); 
+			
+			
+			
+			
+			try {
+				
+				if (s != null) {
+					ps.close();
+				}
+			} catch (SQLException ex) {
+				Logger lgr = Logger.getLogger(ConnectionDB.class.getName());
+				lgr.log(Level.WARNING, ex.getMessage(), ex);
+			}
+			}
+
+		
+		
+		
 	}
 
 }
